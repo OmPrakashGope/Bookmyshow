@@ -1,0 +1,33 @@
+package com.project.Bookmyshow.Controller;
+
+import com.project.Bookmyshow.Dto.AddMovieDto;
+import com.project.Bookmyshow.Service.MovieService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/movie")
+public class MovieController {
+    @Autowired
+    private MovieService movieService;
+    @PostMapping("/add-movie")
+    public ResponseEntity<String> addMovie(@RequestBody AddMovieDto addMovieDto)
+    {
+        movieService.addMovie(addMovieDto);
+        return new ResponseEntity<>("Movie added successfully", HttpStatus.CREATED);
+    }
+    @PutMapping("/delete-movie")
+    public ResponseEntity<String> deleteMovie(@RequestParam int movieId)
+    {
+        try {
+            movieService.deleteMovie(movieId);
+            return new ResponseEntity<>("movie removed from the list", HttpStatus.OK);
+        }catch (Exception e)
+        {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+    }
+
+}
