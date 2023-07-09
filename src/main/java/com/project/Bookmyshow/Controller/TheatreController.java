@@ -36,5 +36,22 @@ public class TheatreController {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
-
+    @GetMapping("/get-all-theatre")
+    public ResponseEntity<Integer> getAllTheatre()
+    {
+        int noOFTheaters = theatreService.getAllTheatre();
+        return new ResponseEntity<>(noOFTheaters,HttpStatus.OK);
+    }
+    @PutMapping("/delete-theatre")
+    public ResponseEntity<String> deleteTheatre(@RequestParam String location)
+    {
+        try
+        {
+            theatreService.deleteTheatre(location);
+            return new ResponseEntity<>("Theatre at given location deleted from the list",HttpStatus.OK);
+        }catch(Exception e)
+        {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+        }
+    }
 }

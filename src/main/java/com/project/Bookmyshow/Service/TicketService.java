@@ -1,14 +1,19 @@
 package com.project.Bookmyshow.Service;
 
 import com.project.Bookmyshow.Dto.BookTicketDto;
+import com.project.Bookmyshow.Dto.CancelTicketDto;
 import com.project.Bookmyshow.Dto.TicketResponseDto;
 import com.project.Bookmyshow.ExceptionHandling.ShowNotFoundException;
+import com.project.Bookmyshow.ExceptionHandling.TicketNotFoundException;
 import com.project.Bookmyshow.ExceptionHandling.UserNotFoundException;
 import com.project.Bookmyshow.Repository.ShowRepository;
 import com.project.Bookmyshow.Repository.TicketRepository;
 import com.project.Bookmyshow.Repository.UserRepository;
 import com.project.Bookmyshow.Transformer.TicketTransformer;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.CurrentTimestamp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.auditing.CurrentDateTimeProvider;
 import org.springframework.stereotype.Service;
 import com.project.Bookmyshow.Module.*;
 
@@ -22,11 +27,14 @@ public class TicketService {
     private UserRepository userRepository;
     @Autowired
     private ShowRepository showRepository;
+    @Autowired
     private TicketRepository ticketRepository;
     public TicketResponseDto bookTicket(BookTicketDto bookTicketDto) throws UserNotFoundException,ShowNotFoundException {
-        Optional<User> userOptional = userRepository.findByEmail(bookTicketDto.getUserEmail());
+//        User user = userRepository.findByEmail(bookTicketDto.getUserEmail());
+        System.out.println(bookTicketDto.getUserId());
+        Optional<User> userOptional = userRepository.findById(bookTicketDto.getUserId());
         System.out.println(userOptional.isEmpty());
-        if(!userOptional.isPresent())
+        if(userOptional.isEmpty())
         {
             throw new UserNotFoundException("User of given id does not exists in the list");
         }
@@ -47,7 +55,9 @@ public class TicketService {
         Ticket ticket = TicketTransformer.ticketDtoToTicket(bookTicketDto,price);
         ticket.setUser(user);
         ticket.setShow(show);
+        System.out.println("hello");
         ticket = ticketRepository.save(ticket);
+        System.out.println("hello again");
         show.getTicketList().add(ticket);
         user.getTicketList().add(ticket);
         showRepository.save(show);
@@ -80,6 +90,41 @@ public class TicketService {
             if (found == false) return Optional.empty();
         }
         return Optional.of(showSeatAns);
+    }
+
+
+    public void cancelTicket(CancelTicketDto cancelTicketDto) throws UserNotFoundException,TicketNotFoundException,ShowNotFoundException {
+        Optional<User> userOptional = userRepository.findById(cancelTicketDto.getUserId());
+        if(userOptional.isEmpty())
+        {
+            throw new UserNotFoundException("User by given userId does not exists in the list");
+        }
+        User user = userOptional.get();
+        Optional<Ticket> ticketOptional = ticketRepository.findById(cancelTicketDto.getTicketId());
+        if(ticketOptional.isEmpty())
+        {
+            throw  new TicketNotFoundException("Ticket of given id is not present in the list");
+        }
+        Ticket ticket = ticketOptional.get();
+        Show show = ticket.getShow();
+        if(show == null)
+        {
+            throw new ShowNotFoundException("show already over for given ticket");
+        }
+        List<String> bookedSeatList = ticket.getBookedSeat();
+        List<ShowSeat> showSeatList = show.getShowSeatList();
+        for(String showSeatNumber : bookedSeatList)
+        {
+
+            for(ShowSeat showSeat : showSeatList)
+            {
+                if(showSeat.getSeatNumber().equals(showSeatNumber))
+                {
+                    showSeat.setIsAvailable(true);
+                }
+            }
+        }
+        ticketRepository.delete(ticket);
     }
 
 

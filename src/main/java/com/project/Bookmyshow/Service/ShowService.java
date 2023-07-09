@@ -7,6 +7,7 @@ import com.project.Bookmyshow.ExceptionHandling.ShowNotFoundException;
 import com.project.Bookmyshow.ExceptionHandling.TheatreNotFoundException;
 import com.project.Bookmyshow.Repository.MovieRepository;
 import com.project.Bookmyshow.Repository.ShowRepository;
+import com.project.Bookmyshow.Repository.ShowSeatRepository;
 import com.project.Bookmyshow.Repository.TheatreRepository;
 import com.project.Bookmyshow.Transformer.ShowTransformer;
 import com.project.Bookmyshow.Enum.SeatType;
@@ -24,6 +25,8 @@ public class ShowService {
     private MovieRepository movieRepository;
     @Autowired
     private TheatreRepository theatreRepository;
+    @Autowired
+    private ShowSeatRepository showSeatRepository;
     public void addShow(ShowDto showDto)throws MovieNotFoundException,TheatreNotFoundException {
         Optional<Movie> movieOptional = movieRepository.findById(showDto.getMovieId());
         if(movieOptional.isEmpty())
@@ -53,6 +56,13 @@ public class ShowService {
             throw new ShowNotFoundException("given show does not exist");
         }
         Show show = showOptional.get();
+        List<ShowSeat> showSeatList = show.getShowSeatList();
+        for(ShowSeat showSeat : showSeatList)
+        {
+            showSeatRepository.delete(showSeat);
+        }
+        showSeatList.clear();
+        System.out.println(showSeatList.size());
         List<TheatreSeat> theatreSeats = show.getTheater().getTheatreSeatList();
         for(TheatreSeat theatreSeat:theatreSeats)
         {
@@ -68,10 +78,11 @@ public class ShowService {
                 showSeat.setPrice(associateShowSeatDto.getPriceForPremiumSeats());
             }
             showSeat.setShow(show);
-            showSeat.setIsAvailable(false);
+            showSeat.setIsAvailable(true);
             showSeat.setIsFoodAttached(false);
             show.getShowSeatList().add(showSeat);
         }
+        System.out.println(showSeatList.size());
         showRepository.save(show);
     }
 }

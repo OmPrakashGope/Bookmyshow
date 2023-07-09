@@ -15,12 +15,12 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     public void addUser(UserDto userDto) throws EmailAlreadyExistException{
-        Optional<User> userOptional = userRepository.findByEmail(userDto.getEmail());
-        if(userOptional.isPresent())
+       User user = userRepository.findByEmail(userDto.getEmail());
+        if(!(user == null))
         {
             throw new EmailAlreadyExistException("Email Id already exist");
         }
-        User user = UserTransformer.userDtoToEntity(userDto);
+        user = UserTransformer.userDtoToEntity(userDto);
         userRepository.save(user);
     }
 }

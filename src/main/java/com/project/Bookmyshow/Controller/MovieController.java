@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/movie")
 public class MovieController {
@@ -29,5 +31,10 @@ public class MovieController {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
-
+    @GetMapping("/get-max-show-movieName")
+    public ResponseEntity<List<String>> getMovieWithMaxShow()
+    {
+       List<String> movieName = movieService.getMovieWithMaxShow();
+       return new ResponseEntity<>(movieName,HttpStatus.OK);
+    }
 }

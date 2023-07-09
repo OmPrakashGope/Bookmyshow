@@ -11,7 +11,7 @@ public class TicketTransformer {
     public static TicketResponseDto ticketToTicketDto(Ticket ticket)
     {
         TicketResponseDto ticketResponseDto =TicketResponseDto.builder().price(ticket.getTotalTicketPrice()).
-            showDate(ticket.getMovieDate()).showTiming(ticket.getStartingTime()).build();
+            showDate(ticket.getMovieDate()).showTiming(ticket.getStartingTime()).showSeat(ticket.getBookedSeat()).build();
         return ticketResponseDto;
     }
     public static Ticket ticketDtoToTicket(BookTicketDto bookTicketDto, double price)

@@ -3,6 +3,7 @@ package com.project.Bookmyshow.Service;
 import com.project.Bookmyshow.Dto.TheatreDto;
 import com.project.Bookmyshow.Dto.TheatreSeatAddDto;
 import com.project.Bookmyshow.ExceptionHandling.TheatreAlreadyExistException;
+import com.project.Bookmyshow.ExceptionHandling.TheatreNotFoundException;
 import com.project.Bookmyshow.ExceptionHandling.TheatreNotPresentException;
 import com.project.Bookmyshow.Repository.TheatreRepository;
 import com.project.Bookmyshow.Repository.TheatreSeatRepository;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.List;
 import java.util.Optional;
 @Service
 public class TheatreService {
@@ -39,10 +41,14 @@ public class TheatreService {
             throw new TheatreNotPresentException("Theatre at given location is not present");
         }
         Theatre theatre = theatreOptional.get();
+        List<TheatreSeat> theatreList = theatre.getTheatreSeatList();
+        for(TheatreSeat theatreSeat : theatreList)
+        {
+            theatreSeatRepository.delete(theatreSeat);
+        }
+        theatreList.clear();
         char prefix= 'A';
         int classicSeat = theatreSeatAddDto.getClassicSeats();
-        int count = 1;
-        int seatNumberCount = 0;
         for(int i = 1;i <= classicSeat;)
         {
             int suffix = 1;
@@ -77,5 +83,20 @@ public class TheatreService {
             prefix++;
         }
         theatreRepository.save(theatre);
+    }
+
+    public int getAllTheatre() {
+        List<Theatre> theatreList = theatreRepository.findAll();
+        return theatreList.size();
+    }
+
+    public void deleteTheatre(String location) throws TheatreNotFoundException{
+        Optional<Theatre> theatreOptional = theatreRepository.findByLocation(location);
+        if(theatreOptional.isEmpty())
+        {
+            throw new TheatreNotFoundException("Theatre at given location does not exists");
+        }
+        Theatre theatre = theatreOptional.get();
+        theatreRepository.delete(theatre);
     }
 }

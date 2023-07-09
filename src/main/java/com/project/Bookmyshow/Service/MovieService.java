@@ -8,6 +8,8 @@ import com.project.Bookmyshow.Module.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 @Service
 public class MovieService {
@@ -25,5 +27,26 @@ public class MovieService {
             throw new MovieNotFoundException("movie of given id does not exist in the list");
         }
         movieRepository.deleteById(id);
+    }
+
+    public List<String> getMovieWithMaxShow() {
+        List<Movie> movieList = movieRepository.findAll();
+        int maxShows = 0;
+        List<String> movieName = new ArrayList<>();
+        for(Movie movie : movieList)
+        {
+            if(movie.getShowList().size() > maxShows)
+            {
+                maxShows = movie.getShowList().size();
+            }
+        }
+        for(Movie movie : movieList)
+        {
+            if(movie.getShowList().size() == maxShows)
+            {
+                movieName.add(movie.getMovieName());
+            }
+        }
+        return movieName;
     }
 }

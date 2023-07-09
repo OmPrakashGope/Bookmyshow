@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class BookTicketDto {
     private int showId;
-    private String userEmail;
+    private int userId;
     @JsonFormat(pattern = "MM/dd/yyyy")
     private Date bookingDate;
 
