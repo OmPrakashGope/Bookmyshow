@@ -85,4 +85,14 @@ public class ShowService {
         System.out.println(showSeatList.size());
         showRepository.save(show);
     }
+
+    public void cancelShow(int showId) throws ShowNotFoundException {
+        Optional<Show> showOptional = showRepository.findById(showId);
+        if(showOptional.isEmpty())
+        {
+            throw new ShowNotFoundException("Show by given id does not exists");
+        }
+        Show show = showOptional.get();
+        showRepository.delete(show);
+    }
 }

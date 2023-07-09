@@ -128,4 +128,19 @@ public class TicketService {
     }
 
 
+    public List<TicketResponseDto> getAllTicketsOfUser(String userEmailId) throws UserNotFoundException{
+        User user = userRepository.findByEmail(userEmailId);
+        if(user == null)
+        {
+            throw new UserNotFoundException("User of given name does not exists in the list");
+        }
+        List<Ticket> ticketList = user.getTicketList();
+        List<TicketResponseDto> ticketResponseDtoList = new ArrayList<>();
+        for(Ticket ticket : ticketList)
+        {
+            TicketResponseDto ticketResponseDto = TicketTransformer.ticketToTicketDto(ticket);
+            ticketResponseDtoList.add(ticketResponseDto);
+        }
+        return ticketResponseDtoList;
+    }
 }

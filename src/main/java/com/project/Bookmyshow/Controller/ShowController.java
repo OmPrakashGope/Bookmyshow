@@ -35,4 +35,15 @@ public class ShowController {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
         }
     }
+    @PutMapping("/cancel-show")
+    public ResponseEntity<String> cancelShow(@RequestParam int showId)
+    {
+        try{
+            showService.cancelShow(showId);
+            return new ResponseEntity<>("Show by given show id : " + showId + "deleted from the list",HttpStatus.OK);
+        }catch(Exception e)
+        {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+        }
+    }
 }
