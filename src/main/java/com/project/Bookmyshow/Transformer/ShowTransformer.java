@@ -1,5 +1,5 @@
 package com.project.Bookmyshow.Transformer;
-import com.project.Bookmyshow.Dto.ShowDto;
+import com.project.Bookmyshow.Dto.RequestDtos.ShowDto;
 import com.project.Bookmyshow.Module.Show;
 
 public class ShowTransformer {

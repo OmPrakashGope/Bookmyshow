@@ -1,11 +1,8 @@
 package com.project.Bookmyshow.Controller;
 
-import com.project.Bookmyshow.Dto.BookTicketDto;
-import com.project.Bookmyshow.Dto.CancelTicketDto;
-import com.project.Bookmyshow.Dto.TicketResponseDto;
-import com.project.Bookmyshow.Repository.ShowRepository;
-import com.project.Bookmyshow.Repository.TicketRepository;
-import com.project.Bookmyshow.Repository.UserRepository;
+import com.project.Bookmyshow.Dto.RequestDtos.BookTicketDto;
+import com.project.Bookmyshow.Dto.RequestDtos.CancelTicketDto;
+import com.project.Bookmyshow.Dto.ResponseDto.TicketResponseDto;
 import com.project.Bookmyshow.Service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +17,7 @@ public class TicketController {
     @Autowired
     private TicketService ticketService;
 
-    @GetMapping("/get-ticket")
+    @GetMapping("/book-ticket")
     public ResponseEntity<?> bookTicket(@RequestBody BookTicketDto bookTicketDto) {
         try {
            TicketResponseDto ticketResponseDto = ticketService.bookTicket(bookTicketDto);

@@ -1,7 +1,7 @@
 package com.project.Bookmyshow.Service;
 
-import com.project.Bookmyshow.Dto.AssociateShowSeatDto;
-import com.project.Bookmyshow.Dto.ShowDto;
+import com.project.Bookmyshow.Dto.RequestDtos.AssociateShowSeatDto;
+import com.project.Bookmyshow.Dto.RequestDtos.ShowDto;
 import com.project.Bookmyshow.ExceptionHandling.MovieNotFoundException;
 import com.project.Bookmyshow.ExceptionHandling.ShowNotFoundException;
 import com.project.Bookmyshow.ExceptionHandling.TheatreNotFoundException;
@@ -15,6 +15,8 @@ import com.project.Bookmyshow.Module.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -94,5 +96,18 @@ public class ShowService {
         }
         Show show = showOptional.get();
         showRepository.delete(show);
+    }
+    public List<Time> showTimingsOnDate(ShowDto showDto) {
+        Date date = showDto.getDate();
+        Integer theaterId = showDto.getTheatreId();
+        Integer movieId = showDto.getMovieId();
+        return showRepository.getShowTimingsOnDate(date, theaterId, movieId);
+    }
+
+    public String movieHavingMostShows() {
+        public String movieHavingMostShows() {
+            Integer movieId = showRepository.getMostShowsMovie();
+            return movieRepository.findById(movieId).get().getMovieName();
+        }
     }
 }

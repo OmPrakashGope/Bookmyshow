@@ -1,8 +1,12 @@
 package com.project.Bookmyshow.Service;
 
-import com.project.Bookmyshow.Dto.AddMovieDto;
+import com.project.Bookmyshow.Dto.RequestDtos.AddMovieDto;
 import com.project.Bookmyshow.ExceptionHandling.MovieNotFoundException;
+import com.project.Bookmyshow.Module.Show;
+import com.project.Bookmyshow.Module.Ticket;
 import com.project.Bookmyshow.Repository.MovieRepository;
+import com.project.Bookmyshow.Repository.ShowRepository;
+import com.project.Bookmyshow.Repository.ShowSeatRepository;
 import com.project.Bookmyshow.Transformer.MovieTransformer;
 import com.project.Bookmyshow.Module.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,8 @@ import java.util.Optional;
 public class MovieService {
     @Autowired
     private MovieRepository movieRepository;
+    @Autowired
+    private ShowRepository showRepository;
     public void addMovie(AddMovieDto addMovieDto) {
         Movie movie = MovieTransformer.movieDtoToEntity(addMovieDto);
         movieRepository.save(movie);
@@ -48,5 +54,19 @@ public class MovieService {
             }
         }
         return movieName;
+    }
+    public Double totalCollection(Integer movieId) throws  MovieNotFoundException{
+        Optional<Movie> movieOpt = movieRepository.findById(movieId);
+        if(movieOpt.isEmpty()) {
+            throw new MovieNotFoundException("movie of given id does not exists");
+        }
+        List<Show> showListOfMovie = showRepository.findAllByMovieId(movieId);
+        double amount = 0;
+        for(Show show : showListOfMovie) {
+            for(Ticket ticket : show.getTicketList()) {
+                amount += (double)ticket.getTotalTicketPrice();
+            }
+        }
+        return amount;
     }
 }

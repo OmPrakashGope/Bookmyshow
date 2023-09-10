@@ -1,11 +1,8 @@
 package com.project.Bookmyshow.Transformer;
 
-import com.project.Bookmyshow.Dto.BookTicketDto;
-import com.project.Bookmyshow.Dto.TicketResponseDto;
-import com.project.Bookmyshow.Module.ShowSeat;
+import com.project.Bookmyshow.Dto.RequestDtos.BookTicketDto;
+import com.project.Bookmyshow.Dto.ResponseDto.TicketResponseDto;
 import com.project.Bookmyshow.Module.Ticket;
-
-import java.util.List;
 
 public class TicketTransformer {
     public static TicketResponseDto ticketToTicketDto(Ticket ticket)

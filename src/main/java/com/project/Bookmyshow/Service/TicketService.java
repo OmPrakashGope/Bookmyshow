@@ -1,8 +1,8 @@
 package com.project.Bookmyshow.Service;
 
-import com.project.Bookmyshow.Dto.BookTicketDto;
-import com.project.Bookmyshow.Dto.CancelTicketDto;
-import com.project.Bookmyshow.Dto.TicketResponseDto;
+import com.project.Bookmyshow.Dto.RequestDtos.BookTicketDto;
+import com.project.Bookmyshow.Dto.RequestDtos.CancelTicketDto;
+import com.project.Bookmyshow.Dto.ResponseDto.TicketResponseDto;
 import com.project.Bookmyshow.ExceptionHandling.ShowNotFoundException;
 import com.project.Bookmyshow.ExceptionHandling.TicketNotFoundException;
 import com.project.Bookmyshow.ExceptionHandling.UserNotFoundException;
@@ -10,10 +10,7 @@ import com.project.Bookmyshow.Repository.ShowRepository;
 import com.project.Bookmyshow.Repository.TicketRepository;
 import com.project.Bookmyshow.Repository.UserRepository;
 import com.project.Bookmyshow.Transformer.TicketTransformer;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.CurrentTimestamp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.auditing.CurrentDateTimeProvider;
 import org.springframework.stereotype.Service;
 import com.project.Bookmyshow.Module.*;
 

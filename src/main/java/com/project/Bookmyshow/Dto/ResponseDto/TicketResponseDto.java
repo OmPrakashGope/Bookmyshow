@@ -1,4 +1,4 @@
-package com.project.Bookmyshow.Dto;
+package com.project.Bookmyshow.Dto.ResponseDto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

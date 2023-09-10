@@ -1,6 +1,6 @@
 package com.project.Bookmyshow.Transformer;
 
-import com.project.Bookmyshow.Dto.AddMovieDto;
+import com.project.Bookmyshow.Dto.RequestDtos.AddMovieDto;
 import com.project.Bookmyshow.Module.Movie;
 import lombok.Data;
 import lombok.NoArgsConstructor;

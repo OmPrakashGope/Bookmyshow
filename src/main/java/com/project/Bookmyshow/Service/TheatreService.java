@@ -1,7 +1,7 @@
 package com.project.Bookmyshow.Service;
 
-import com.project.Bookmyshow.Dto.TheatreDto;
-import com.project.Bookmyshow.Dto.TheatreSeatAddDto;
+import com.project.Bookmyshow.Dto.RequestDtos.TheatreDto;
+import com.project.Bookmyshow.Dto.RequestDtos.TheatreSeatAddDto;
 import com.project.Bookmyshow.ExceptionHandling.TheatreAlreadyExistException;
 import com.project.Bookmyshow.ExceptionHandling.TheatreNotFoundException;
 import com.project.Bookmyshow.ExceptionHandling.TheatreNotPresentException;

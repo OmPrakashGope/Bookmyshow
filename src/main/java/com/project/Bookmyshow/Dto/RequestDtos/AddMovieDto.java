@@ -1,4 +1,4 @@
-package com.project.Bookmyshow.Dto;
+package com.project.Bookmyshow.Dto.RequestDtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project.Bookmyshow.Enum.Genre;

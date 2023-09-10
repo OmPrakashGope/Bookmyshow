@@ -1,6 +1,6 @@
 package com.project.Bookmyshow.Controller;
 
-import com.project.Bookmyshow.Dto.AddMovieDto;
+import com.project.Bookmyshow.Dto.RequestDtos.AddMovieDto;
 import com.project.Bookmyshow.Service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,5 +36,14 @@ public class MovieController {
     {
        List<String> movieName = movieService.getMovieWithMaxShow();
        return new ResponseEntity<>(movieName,HttpStatus.OK);
+    }
+    @GetMapping("/totalCollection/{movieId}")
+    public ResponseEntity<Double> totalCollection(@PathVariable Integer movieId) {
+        try {
+            Double result = movieService.totalCollection(movieId);
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
 }

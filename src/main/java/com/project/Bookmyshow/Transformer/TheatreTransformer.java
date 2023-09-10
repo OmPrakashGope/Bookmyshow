@@ -1,6 +1,6 @@
 package com.project.Bookmyshow.Transformer;
 
-import com.project.Bookmyshow.Dto.TheatreDto;
+import com.project.Bookmyshow.Dto.RequestDtos.TheatreDto;
 import com.project.Bookmyshow.Module.Theatre;
 
 public class TheatreTransformer {

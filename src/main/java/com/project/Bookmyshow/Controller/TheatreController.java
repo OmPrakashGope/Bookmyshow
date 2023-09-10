@@ -1,7 +1,7 @@
 package com.project.Bookmyshow.Controller;
 
-import com.project.Bookmyshow.Dto.TheatreDto;
-import com.project.Bookmyshow.Dto.TheatreSeatAddDto;
+import com.project.Bookmyshow.Dto.RequestDtos.TheatreDto;
+import com.project.Bookmyshow.Dto.RequestDtos.TheatreSeatAddDto;
 import com.project.Bookmyshow.Service.TheatreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
