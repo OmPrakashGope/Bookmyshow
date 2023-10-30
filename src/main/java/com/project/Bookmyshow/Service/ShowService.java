@@ -64,7 +64,6 @@ public class ShowService {
             showSeatRepository.delete(showSeat);
         }
         showSeatList.clear();
-        System.out.println(showSeatList.size());
         List<TheatreSeat> theatreSeats = show.getTheater().getTheatreSeatList();
         for(TheatreSeat theatreSeat:theatreSeats)
         {
@@ -105,9 +104,8 @@ public class ShowService {
     }
 
     public String movieHavingMostShows() {
-        public String movieHavingMostShows() {
             Integer movieId = showRepository.getMostShowsMovie();
             return movieRepository.findById(movieId).get().getMovieName();
         }
     }
-}
+
